@@ -1,0 +1,94 @@
+<div data-role="navbar" data-iconpos="left" data-theme="a" data-position="fixed" data-fullscreen="true"> 
+            <ul>
+                <li><a href="/paciente" data-icon="home" data-ajax="false"  >Home</a></li>
+                <li><a href="<?php echo $this->url('paciente/balanca'); ?>"  data-ajax="false"    data-icon="grid">Cadastrar meu peso</a></li>
+            </ul>
+        </div><!-- /navbar -->
+<h3 class="ui-bar ui-bar-a ui-corner-all">Manter meu peso em dia.</h3> 
+
+
+<script>
+    $('document').ready(function(){
+        
+                            
+                            $( "#dt_cadastro" ).datepicker({
+            firstDay: 1,
+            dateFormat: 'dd/mm/yy',						
+            dayNames: [
+                'DOMINGO','SEGUNDA','TERÇA','QUARTA','QUINTA','SEXTA','SÁBADO','DOMINGO'
+            ],
+            dayNamesMin: [
+                'D','S','T','Q','Q','S','S','D'
+            ],
+            dayNamesShort: [
+                'Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'
+            ],
+            monthNames: [
+                'JANEIRO','FEVEREIRO','MARÇO','ABRIL','MAIO','JUNHO','JULHO','AGOSTO','SETEMBRO',
+                'OUTUBRO','NOVEMBRO','DEZEMBRO'
+            ],
+            monthNamesShort: [
+                'JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET',
+                'OUT','NOV','DEZ'
+            ],				
+            nextText: 'Próximo',
+            prevText: 'Anterior'});
+    });
+</script>
+<link href="/css/redmond/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+
+ <?php echo $this->message($this->message); ?>
+          <!-- input masks -->
+    
+         
+              <form action="<?php #cho $this->url('paciente/antropometria'); ?>" class="form-horizontal row-border" method="post" >
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Data que pesou</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="dt_cadastro" name='dt_cadastro' value="<?php echo date("d/m/Y");?>"/>
+                </div>
+               
+              </div><!-- /date -->
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Peso</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="peso" name='peso'/>
+                </div>
+                <div class="col-sm-3">
+                  <p class="help-block">60,00 kg</p>
+                </div>
+              </div><!-- /date -->
+               <div class="panel-footer">
+                <div class="row">
+                 <div class="col-sm-6 col-sm-offset-3">
+                  <button type="submit" class="btn btn-success">Salvar</button>
+                  <a href="<?php echo $this->url('paciente/balanca'); ?>" class="btn btn-danger">Cancelar</a>
+                </div>
+              </div>
+              </div> <!-- panel footer -->
+            </form>
+              
+              <table class="table">
+					<thead>
+						<tr>
+							<th>Peso</th>
+							<th>Data</th>
+                                                        <th>Ação</th>
+						</tr>
+					</thead>
+					<tbody>
+                                            <?php if($aBalanca){ 
+                                                    foreach($aBalanca as $Balanca){ ?>
+						<tr>
+							<td><?php echo $Balanca->getDsValor(); ?> Kg</td>
+							<td><?php echo $Balanca->getDtCadastro('d/m/Y'); ?></td>
+						        <td>
+                                                            <a href="<?php echo $this->url('paciente/excluir-balanca',array('id'=>$Balanca->getCoAntropometria())); ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                                                        </td>
+						</tr>
+                                            <?php }} ?>
+					</tbody>
+				</table>
+          <br>
+          <br>
+          <br>

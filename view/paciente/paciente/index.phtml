@@ -1,0 +1,50 @@
+<script type="text/javascript" src="/graph/canvasjs.min.js"></script>
+<div data-role="navbar" data-iconpos="left" data-theme="a" data-position="fixed" data-fullscreen="true"> 
+            <ul>
+                <li><a href="<?php echo $this->url('paciente/balanca'); ?>"  data-ajax="false"    data-icon="grid">Cadastrar meu peso</a></li>
+                <li><a href="<?php echo $this->url('paciente/cadastrar-prato'); ?>"  data-ajax="false"  data-icon="camera">Cadastrar uma refeição</a></li>
+            </ul>
+        </div><!-- /navbar -->
+<h3 class="ui-bar ui-bar-a ui-corner-all">Olá <?php echo NO_PACIENTE; ?>, seja bem vind<?php if(GENDER == "male"){ echo "o";}else{echo "a";}?>, clique nos icones abaixo para poder navegar.</h3> 
+
+
+<?php
+if(PESO){
+    
+/* GRAFICO PAGINA INCIAL */
+echo "<script>";
+$strG = "var peso_data = [";
+foreach($aPeso as $pesoVal){
+    $strG .= '{"label": "'.$pesoVal['dt_cadastro'].'", "y": '.$pesoVal['ds_valor'].'},';
+}
+$strG .= "];";
+
+echo $strG;
+echo "</script>";
+
+?>
+<script>   
+   window.onload = function () {
+          var chart = new CanvasJS.Chart("chartContainer", {
+              theme: "theme2",//theme1
+              title:{
+                  text: "Seu controle de peso."              
+             },
+              data: [              
+              {
+// Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+                  type: "column",
+                  dataPoints: peso_data
+              }
+              ]
+          });
+
+          chart.render();
+          $(".canvasjs-chart-credit").hide();
+      }
+  
+</script>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<?php } ?>
+
+

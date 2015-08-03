@@ -1,0 +1,101 @@
+<div class="row">
+                 <div class="col-mod-12">
+
+                  <ul class="breadcrumb">
+                   <li><a href="/">Principal</a></li>
+                   <li><a href="/exame" class="active">Exames</a></li>
+                 </ul>
+
+                 
+                <h3 class="page-header">Informação de Exames <i class="fa fa-info-circle animated bounceInDown show-info"></i> </h3>
+
+                <blockquote class="page-information hidden">
+                 <p>
+                  Tenha seus exames principais registrados aqui. Pode fazer em qualquer laboratório, pois nós temos o seu histórico.
+                </p>
+              </blockquote>
+            </div>
+          </div>
+ <?php echo $this->message($this->message); ?>
+          <!-- input masks -->
+          <div class="row">
+           <div class="col-md-12">
+            <div class="panel panel-cascade">
+             <div class="panel-heading">
+              <h3 class="panel-title">
+                <i class="fa fa-pencil-square"></i> Cadastro de Exames Laboratoriais.
+                
+            </h3>
+          </div>
+          <div class="panel-body">
+              <form action="/balanca" class="form-horizontal row-border" method="post" >
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Glicemia</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="glicemia" name='glicemia' maxlength="4"/>
+                </div>
+                <div class="col-sm-3">
+                  <p class="help-block">mg/dL</p>
+                </div>
+              </div><!-- /date -->
+               <div class="panel-footer">
+                <div class="row">
+                 <div class="col-sm-6 col-sm-offset-3">
+                  <button type="submit" class="btn btn-success">Salvar</button>
+                  <a href="/balanca" class="btn btn-danger">Cancelar</a>
+                </div>
+              </div>
+              </div> <!-- panel footer -->
+            </form>
+              
+              <table class="table">
+					<thead>
+						<tr>
+							<th>Valor</th>
+							<th>Data</th>
+							<!-- <th>Status</th> -->
+                                                        <th>Ação</th>
+						</tr>
+					</thead>
+					<tbody>
+                                            <?php if($aBalanca){ 
+                                                
+                                                    foreach($aBalanca as $Balanca){ ?>
+						<tr>
+							<td><?php echo $Balanca->getDsValor(); ?> Kg</td>
+							<td><?php echo $Balanca->getDtCadastro('d/m/Y'); ?></td>
+							<!--<td><span class="label bg-pink text-white">Atenção</span></td>
+                                                        pow(1.80,2);
+                                                        -->
+                                                        <td>
+                                                            <a href="/balanca/excluir-balanca/<?php echo $Balanca->getCoAntropometria(); ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                                                        </td>
+						</tr>
+                                            <?php }} ?>
+						<!--<tr>
+							<td>120,00 Kg</td>
+							<td>01/01/2014</td>
+							<td><span class="label bg-pink text-white">Atenção</span></td>
+						</tr>
+						<tr>
+							<td>115,00 Kg</td>
+							<td>01/01/2014</td>
+							<td><span class="label bg-purple text-white">Legal</span></td>
+						</tr>
+						<tr>
+							<td>111,00 Kg</td>
+							<td>01/01/2014</td>
+							<td><span class="label bg-seagreen text-white">Bom</span></td>
+						</tr>
+						<tr>
+							<td>90,00 Kg</td>
+							<td>01/01/2014</td>
+							<td><span class="label bg-success text-white">Ótimo</span></td>
+						</tr>-->
+					</tbody>
+				</table>
+        </div> <!-- /panel body -->
+        
+    </div>
+    </div>
+</div>

@@ -1,0 +1,139 @@
+<div data-role="navbar" data-iconpos="left" data-theme="a" data-position="fixed" data-fullscreen="true"> 
+            <ul>
+                <li><a href="/paciente" data-icon="home" data-ajax="false"  >Home</a></li>
+                <li><a href="<?php echo $this->url('paciente/perfil'); ?>"  data-ajax="false"  class="ui-btn-active"  data-icon="user">Meu Perfil</a></li>
+
+            </ul>
+        </div><!-- /navbar -->
+ <?php echo $this->message($this->message); ?>
+          
+          <h3 class="ui-bar ui-bar-a ui-corner-all">Meus Dados</h3> 
+                
+          <div class="panel-body">
+              <form action="<?php echo $this->url('paciente/perfil'); ?>" class="form-horizontal row-border" method="post" >
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Nome</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="no_paciente" name='no_paciente' value="<?php echo $oPaciente->getNoPaciente(); ?>"/>
+                </div>
+                <div class="col-sm-3">
+                  <p class="help-block"></p>
+                </div>
+              </div>
+                  <div class="form-group">
+                <label class="col-sm-3 control-label">E-mail</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="e_mail" name='e_mail' value="<?php echo $oPaciente->getEMail(); ?>"/>
+                </div>
+                <div class="col-sm-3">
+                  <p class="help-block"></p>
+                </div>
+              </div><!-- /date -->
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Senha de Acesso</label>
+                <div class="col-sm-6">
+                    <input type="password" class="form-control" id="ds_senha" name='ds_senha' value="<?php echo $oPaciente->getDsSenha(); ?>"/>
+                </div>
+                <div class="col-sm-3">
+                  <p class="help-block"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Nascimento</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="dt_nascimento" name='dt_nascimento' value="<?php echo $oPaciente->getDtNascimento('d/m/Y'); ?>"/>
+                </div>
+                <div class="col-sm-3">
+                  <p class="help-block"></p>
+                </div>
+              </div><!-- /date -->
+               <div class="panel-footer">
+                <div class="row">
+                 <div class="col-sm-6 col-sm-offset-3">
+                  <button type="submit" class="btn btn-success">Salvar</button>
+                  <a href="<?php echo $this->url('paciente/perfil'); ?>" class="btn btn-danger">Cancelar</a>
+                </div>
+              </div>
+              </div> <!-- panel footer -->
+            </form>
+        </div> <!-- /panel body -->
+        
+    </div>
+    </div>
+</div>
+          <div class="row">
+           <div class="col-md-12">
+            <div class="panel panel-cascade">
+             <div class="panel-heading">
+              <h3 class="panel-title">
+                <i class="fa fa-pencil-square"></i> Cadastro de Altura.
+                
+            </h3>
+          </div>
+          <div class="panel-body">
+              <form action="<?php echo $this->url('paciente/perfil'); ?>" class="form-horizontal row-border" method="post" >
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Altura</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="altura" name='altura'/>
+                </div>
+                <div class="col-sm-3">
+                  <p class="help-block"></p>
+                </div>
+              </div>
+               <div class="panel-footer">
+                <div class="row">
+                 <div class="col-sm-6 col-sm-offset-3">
+                  <button type="submit" class="btn btn-success">Salvar</button>
+                  <a href="<?php echo $this->url('paciente/perfil'); ?>" class="btn btn-danger">Cancelar</a>
+                </div>
+              </div>
+              </div> <!-- panel footer -->
+            </form>
+              
+              <table class="table">
+					<thead>
+						<tr>
+							<th>Altura</th>
+							<th>Data</th>
+						</tr>
+					</thead>
+					<tbody>
+                                            <?php if($aAltura){ 
+                                                
+                                                    foreach($aAltura as $Altura){ ?>
+						<tr>
+							<td><?php echo $Altura->getDsValor(); ?> </td>
+							<td><?php echo $Altura->getDtCadastro('d/m/Y'); ?></td>
+                                                        <td>
+                                                            <a href="<?php echo $this->url('paciente/excluir-altura',array('id'=>$Altura->getCoAntropometria())); ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                                                        </td>
+						</tr>
+                                            <?php }} ?>
+						<!--<tr>
+							<td>120,00 Kg</td>
+							<td>01/01/2014</td>
+							<td><span class="label bg-pink text-white">Atenção</span></td>
+						</tr>
+						<tr>
+							<td>115,00 Kg</td>
+							<td>01/01/2014</td>
+							<td><span class="label bg-purple text-white">Legal</span></td>
+						</tr>
+						<tr>
+							<td>111,00 Kg</td>
+							<td>01/01/2014</td>
+							<td><span class="label bg-seagreen text-white">Bom</span></td>
+						</tr>
+						<tr>
+							<td>90,00 Kg</td>
+							<td>01/01/2014</td>
+							<td><span class="label bg-success text-white">Ótimo</span></td>
+						</tr>-->
+					</tbody>
+				</table>
+        </div> <!-- /panel body -->
+        
+    </div>
+    </div>
+</div>

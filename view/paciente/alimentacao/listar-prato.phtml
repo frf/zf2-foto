@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="/mobile/css/listview-grid.css">   
+      <div data-role="navbar" data-iconpos="left" data-theme="a" data-position="fixed" data-fullscreen="true"> 
+            <ul>
+                <li><a href="/paciente" data-icon="home" data-ajax="false"  >Home</a></li>
+                <li><a href="<?php echo $this->url('paciente/listar-prato'); ?>"  data-ajax="false"  class="ui-btn-active"  data-icon="bullets">Listar Pratos</a></li>
+                <li><a href="<?php echo $this->url('paciente/cadastrar-prato'); ?>"  data-ajax="false"  data-icon="camera">Cadastrar</a></li>
+            </ul>
+        </div><!-- /navbar -->
+        <?php echo $this->message($this->message); ?>
+        
+        <h3 class="ui-bar ui-bar-a ui-corner-all">Meus Pratos</h3> 
+        
+         <ul data-role="listview" data-inset="true">
+             <?php foreach ($this->aPrato as $Prato){ ?>
+             
+             <li><a href="#">
+                <img src="/img_alimento/<?php echo $Prato->getNoFile(); ?>" class="ui-li-thumb">
+                <p class="ui-li-aside"><?php echo $Prato->getAlimentacaoCategoria()->getNoCategoria(); ?></p>
+            </a>
+             </li>
+             <?php } 
+             
+             //<p>Data de Cadastro: $Prato->getDtCadastro('d/m/Y'); </p>
+                
+             ?>
+      
+         </ul>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>

@@ -1,0 +1,189 @@
+<link rel="stylesheet" href="https://rawgithub.com/arschmitz/jquery-mobile-datepicker-wrapper/master/jquery.mobile.datepicker.css" />
+<script src="https://rawgithub.com/jquery/jquery-ui/1-10-stable/ui/jquery.ui.datepicker.js"></script>
+
+<style>
+    input[type="file"]{ width: 238px }
+</style>
+<script>
+
+    $(document).on("click", ".show-page-loading-msg", function() {
+        
+        var $this = $(this),
+            theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
+            msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
+            textVisible = $this.jqmData("textvisible") || $.mobile.loader.prototype.options.textVisible,
+            textonly = !!$this.jqmData("textonly");
+
+        html = $this.jqmData("html") || "";
+             
+        if($("#dt_cadastro").val() == ""){
+            alert('Selecione uma data.');
+            return false;
+        }
+        if($("#resizer")[0] === undefined){
+            alert('Selecione uma imagem.');
+            return false;
+        }  
+            
+        var image_base64 = $("#resizer")[0].toDataURL();
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo $this->url('paciente/cadastrar-prato'); ?>",                
+            data: {imgBase64: image_base64, dt_cadastro: $("#dt_cadastro").val(), tipo_refeicao: $("#tipo_refeicao").val()},
+          success: function(data) {
+                // $.mobile.changePage("msg", { transition: "pop", role: "dialog", reverse: false } );
+          },
+          beforeSend: function(){
+                    $.mobile.loading("show", {
+                             text: msgText,
+                             textVisible: textVisible,
+                             theme: theme,
+                             textonly: textonly,
+                             html: html
+                         });
+          },
+          complete: function(){
+            
+            $("#resizer").remove();
+            $("#resizerView").remove();
+            
+            $.mobile.loading("hide");
+          }
+        });
+        
+    });
+    $('document').ready(function() {
+        
+        var deviceAgent = navigator.userAgent.toLowerCase();
+        var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
+
+        $("#upfile1").click(function() {
+            $("#imagem").trigger('click');
+        });
+
+        if (!agentID) {
+            $("#dt_cadastro").datepicker({
+                firstDay: 1,
+                dateFormat: 'dd/mm/yy',
+                dayNames: [
+                    'DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO', 'DOMINGO'
+                ],
+                dayNamesMin: [
+                    'D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'
+                ],
+                dayNamesShort: [
+                    'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'
+                ],
+                monthNames: [
+                    'JANEIRO', 'FEVEREIRO', 'MARÇO', 'ABRIL', 'MAIO', 'JUNHO', 'JULHO', 'AGOSTO', 'SETEMBRO',
+                    'OUTUBRO', 'NOVEMBRO', 'DEZEMBRO'
+                ],
+                monthNamesShort: [
+                    'JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET',
+                    'OUT', 'NOV', 'DEZ'
+                ],
+                nextText: 'Próximo',
+                prevText: 'Anterior'});
+        }
+        
+        $( "#dialog1" ).popup({ history: false });
+        
+    });
+    
+     function resize_image(input, width, height) {
+        if (input.files[0].type.match(/image.*/)) {
+            $("#message").html("");
+
+            $(".ui-field-contain").append("<canvas id='resizer'></canvas><canvas id='resizerView'></canvas>");
+
+            var canvas = $("#resizer")[0].getContext('2d');
+            var canvasView = $("#resizerView")[0].getContext('2d');
+            
+            var widthView = 200;
+            var heightView = 200;
+
+            canvas.canvas.width = width;
+            canvas.canvas.height = height;
+
+            canvasView.canvas.width = widthView;
+            canvasView.canvas.height = heightView;
+
+            var img = new Image();
+            img.src = URL.createObjectURL(input.files[0]);
+            img.onload = function() {
+                canvas.drawImage(img, 0, 0, width, height);
+            }
+
+            var imgView = new Image();
+            imgView.src = URL.createObjectURL(input.files[0]);
+            imgView.onload = function() {
+                canvasView.drawImage(img, 0, 0, widthView, heightView);
+            }
+
+
+            $('#sender').show();
+            $('#resizerView').show();
+        } else {
+            $("#message").html("File not a image");
+        }
+    }
+</script>
+<style>
+    #resizer { display: none; } 
+    #resizerView { display: none; } 
+    #sender { display: none; }
+</style>
+<div data-role="dialog" id="dialog1" class="app-dialog">
+        <div data-role="header">
+             <h3>A dialog</h3>
+        </div>
+            <div id="content" data-role="content">
+                   <p>I am a dialog....!</p>
+        </div>
+   </div>
+
+<link href="/css/redmond/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+
+<div data-role="navbar" data-iconpos="left" data-theme="a" data-position="fixed" data-fullscreen="true">
+    <ul>
+        <li><a href="/paciente" data-icon="home" data-ajax="false" >Home</a></li>
+        <li><a href="<?php echo $this->url('paciente/listar-prato'); ?>"  data-ajax="false"  data-icon="bullets">Listar Pratos</a></li>
+        <li><a href="<?php echo $this->url('paciente/cadastrar-prato'); ?>"  data-ajax="false"  class="ui-btn-active" data-icon="camera">Cadastrar</a></li>
+    </ul>
+</div><!-- /navbar -->
+
+<?php echo $this->message($this->message); ?>
+<form action="<?php echo $this->url('paciente/cadastrar-prato'); ?>" class="form-horizontal row-border" method="post" enctype="multipart/form-data">
+    <div class="ui-field-contain"></div>
+    <div class="ui-field-contain">
+        <label>Data da Refeição</label>
+        <input type="date" id="dt_cadastro" name="dt_cadastro" value="<?php echo date('d/m/Y') ?>" />
+    </div>
+    <div class="ui-field-contain">
+        <label>Imagem</label>
+        <a href="#" id="upfile1" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-camera">Selecionar Imagem</a>
+
+    </div>
+    <div class="ui-field-contain">
+        <label>Tipo da Refeição:</label>
+        <select name="tipo_refeicao" id="tipo_refeicao" data-native-menu="false">
+            <?php
+            if ($this->oCategoria->count()) {
+                foreach ($this->oCategoria as $Categoria) {
+                    ?>
+                    <option value="<?php echo $Categoria->getCoCategoria(); ?>" <?php echo $Categoria->getPeriodo(); ?>><?php echo $Categoria->getNoCategoria(); ?></option>
+                    <?php
+                }
+            }
+            ?>
+        </select>
+    </div>                
+    <div class="ui-field-contain">
+        <button type="button" class="show-page-loading-msg" data-theme="b" id="enviarAlimentacao" data-textonly="false" data-textvisible="true" data-msgtext="Aguarde..." data-inline="false">Enviar Imagem</button>
+        <a href="<?php echo $this->url('paciente/listar-prato'); ?>" class="ui-shadow ui-btn ui-corner-all">Voltar</a>
+        <br>
+        <br>
+    </div>               
+</form>
+<input type="file" id="imagem"  name="imagem" style="display:none" onchange="resize_image(this, 400, 400);"/>
